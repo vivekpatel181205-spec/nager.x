@@ -266,12 +266,8 @@ function InstallAppButton() {
     window.addEventListener("beforeinstallprompt", capture);
     return () => window.removeEventListener("beforeinstallprompt", capture);
   }, []);
-  const install = async () => {
-    if (!prompt) { window.alert("Use your browser menu and choose Install NagarX or Add to Home Screen."); return; }
-    await prompt.prompt();
-    await prompt.userChoice;
-    setPrompt(null);
-  };
+  if (!prompt) return null;
+  const install = async () => { await prompt.prompt(); await prompt.userChoice; setPrompt(null); };
   return <button className="install-app" onClick={install} aria-label="Install NagarX app"><Download size={15} /> Install NagarX</button>;
 }
 function PageHead({ eyebrow, title, copy, action }) {

@@ -249,6 +249,18 @@ body {
     display: none;
   }
 
+  .sidebar.open {
+    position: fixed;
+    inset: 12px 12px 12px auto;
+    z-index: 2200;
+    display: flex;
+    width: min(310px, calc(100vw - 24px));
+    height: calc(100dvh - 24px);
+    overflow-y: auto;
+    border-radius: 26px;
+    box-shadow: -18px 18px 48px rgba(9, 33, 31, 0.28);
+  }
+
   .main {
     padding: 14px 12px 30px;
   }
@@ -797,7 +809,8 @@ textarea {
 
   .install-app {
     top: auto;
-    right: 14px;
+    left: 14px;
+    right: auto;
     bottom: calc(14px + env(safe-area-inset-bottom));
     min-height: 42px;
     padding: 10px 14px;
@@ -829,8 +842,10 @@ textarea {
 
 @media (max-width: 720px) {
   .install-app {
-    top: 12px;
-    right: 12px;
+    top: auto;
+    left: 14px;
+    right: auto;
+    bottom: calc(14px + env(safe-area-inset-bottom));
   }
 
   .app-update {
