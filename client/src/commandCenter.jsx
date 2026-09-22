@@ -159,6 +159,11 @@ const navItems = [
   ["incidents", "Incidents", AlertTriangle],
   ["analytics", "Analytics", BarChart3],
 ];
+const roleNavItems = {
+  Citizen: ["dashboard", "brain", "traffic", "routes", "transit", "incidents"],
+  Authority: ["dashboard", "brain", "traffic", "emergency", "incidents", "analytics"],
+  Logistics: ["dashboard", "brain", "traffic", "routes", "delivery", "transit", "analytics"],
+};
 const trafficSeed = [
   {
     name: "Knowledge Park II",
@@ -956,7 +961,7 @@ function Emergency() {
     </>
   );
 }
-function Incidents({ incidents, onRefresh }) {
+function Incidents({ incidents, onRefresh, role }) {
   const [form, setForm] = useState({
     type: "Accident",
     location: "Knowledge Park II",
@@ -964,6 +969,7 @@ function Incidents({ incidents, onRefresh }) {
     description: "",
   });
   const [message, setMessage] = useState("");
+  const [updatingId, setUpdatingId] = useState(null);
   const submit = async (event) => {
     event.preventDefault();
     setMessage("");
@@ -983,16 +989,28 @@ function Incidents({ incidents, onRefresh }) {
       setMessage(error.message);
     }
   };
+  const updateStatus = async (id, status) => {
+    setUpdatingId(id);
+    try {
+      await request(`/incidents/${id}`, { method: "PUT", body: JSON.stringify({ status }) });
+      setMessage(`Incident updated to ${status}.`);
+      onRefresh();
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setUpdatingId(null);
+    }
+  };
   return (
     <>
       <PageHead
-        eyebrow="INCIDENT REPORTING"
-        title="Turn a report into a response."
-        copy="Validated incident reports flow to the map, dashboard counts and authority notifications."
+        eyebrow={role === "Authority" ? "AUTHORITY RESPONSE QUEUE" : "INCIDENT REPORTING"}
+        title={role === "Authority" ? "Review, assign and close complaints." : "Turn a report into a response."}
+        copy={role === "Authority" ? "Monitor citizen complaints, update status and keep the response queue moving." : "Validated incident reports flow to the map, dashboard counts and authority notifications."}
       />
       <div className="content-grid">
-        <Panel eyebrow="CITIZEN INPUT" title="Report an incident">
-          <form className="compact-form" onSubmit={submit}>
+        <Panel eyebrow={role === "Authority" ? "AUTHORITY RESPONSE" : "CITIZEN INPUT"} title={role === "Authority" ? "Review and update complaints" : "Report an incident"}>
+          {role === "Authority" ? <div className="table-scroll role-queue"><table><thead><tr><th>Incident</th><th>Location</th><th>Severity</th><th>Status</th></tr></thead><tbody>{incidents.slice(0, 10).map((item) => <tr key={item.id}><td><strong>{item.incident_code}</strong><small>{item.type}</small></td><td>{item.location}</td><td><span className={`tag tag-${item.severity.toLowerCase()}`}>{item.severity}</span></td><td><select className="mini-select" aria-label={`Update ${item.incident_code}`} disabled={updatingId === item.id} value={item.status} onChange={(event) => updateStatus(item.id, event.target.value)}>{["Reported", "Investigating", "In Progress", "Resolved"].map((status) => <option key={status}>{status}</option>)}</select></td></tr>)}</tbody></table></div> : <form className="compact-form" onSubmit={submit}>
             <label>
               Category
               <select
@@ -1050,7 +1068,7 @@ function Incidents({ incidents, onRefresh }) {
             </label>
             {message && <div className="notice">{message}</div>}
             <button className="primary full">Submit incident</button>
-          </form>
+          </form>}
         </Panel>
         <Panel eyebrow="LIVE QUEUE" title="Recent incidents">
           <IncidentRows incidents={incidents.slice(0, 8)} />
@@ -1165,7 +1183,7 @@ export default function CommandCenter() {
     delivery: <Delivery />,
     transit: <Transit />,
     emergency: <Emergency />,
-    incidents: <Incidents incidents={data.incidents} onRefresh={load} />,
+    incidents: <Incidents incidents={data.incidents} onRefresh={load} role={user.role} />,
     analytics: <Analytics analytics={data.analytics} />,
     traffic: (
       <>
@@ -1198,9 +1216,9 @@ export default function CommandCenter() {
             <X size={18} />
           </button>
         </div>
-        <div className="side-label">CITY COMMAND</div>
+        <div className="side-label">{user.role === "Authority" ? "RESPONSE COMMAND" : user.role === "Logistics" ? "FLEET COMMAND" : "CITIZEN HUB"}</div>
         <nav>
-          {navItems.map(([id, label, Icon]) => (
+          {navItems.filter(([id]) => roleNavItems[user.role].includes(id)).map(([id, label, Icon]) => (
             <button
               key={id}
               className={view === id ? "active" : ""}

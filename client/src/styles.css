@@ -559,6 +559,20 @@ body {
   box-shadow: 0 0 0 3px #49a99318;
 }
 
+.role-queue {
+  padding: 0 22px 18px;
+}
+
+.role-queue table {
+  width: 100%;
+}
+
+.role-queue td small {
+  display: block;
+  margin-top: 3px;
+  color: #78908b;
+}
+
 /* Final command-center type and alignment pass. */
 :root {
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
