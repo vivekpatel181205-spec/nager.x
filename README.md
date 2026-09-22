@@ -24,27 +24,31 @@ nager.x/
 
 ## Install and run
 
+Use Node.js 22 or 24 for the project. The backend uses better-sqlite3 13, which supports Node.js 22+.
+
 From the repository root:
 
 ```bash
 npm install
-npm install --prefix server
-npm install --prefix client
 ```
 
-Start the backend:
+This installs both the frontend and backend workspaces automatically.
+
+Run the complete app with one local URL:
 
 ```bash
-cd server && npm run dev
+npm run dev
 ```
 
-Start the frontend in a second terminal:
+Open `http://127.0.0.1:5000`. The Express server serves the built frontend and the `/api` endpoints from the same origin.
+
+For optional frontend hot reload during development:
 
 ```bash
-cd client && npm run dev
+npm run dev:frontend
 ```
 
-Open `http://localhost:5173`. The API is at `http://localhost:5000/api` and health is available at `http://localhost:5000/api/health`.
+The API health endpoint is available at `http://127.0.0.1:5000/api/health`.
 
 The frontend API URL is centralized in `client/.env` as `VITE_API_URL=/api` for the combined production service. Backend settings are in `server/.env`; set `CLIENT_URL` to the frontend origin when hosting the client separately (multiple origins may be comma-separated), and change `JWT_SECRET` before using this beyond local demos.
 
