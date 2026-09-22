@@ -559,6 +559,243 @@ body {
   box-shadow: 0 0 0 3px #49a99318;
 }
 
+/* Final command-center type and alignment pass. */
+:root {
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  letter-spacing: 0;
+}
+
+.main {
+  min-width: 0;
+  padding: 24px clamp(16px, 3vw, 42px) 42px;
+}
+
+.topbar {
+  min-height: 68px;
+  height: auto;
+  padding: 14px 20px;
+  margin-bottom: 28px;
+}
+
+.page-content {
+  width: min(100%, 1440px);
+  margin: 0 auto;
+}
+
+.page-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 86px;
+  margin-bottom: 24px;
+}
+
+.page-head > div:first-child {
+  min-width: 0;
+}
+
+.page-head h1 {
+  max-width: 760px;
+  margin: 7px 0 8px;
+  font-size: clamp(2rem, 3.2vw, 3.35rem);
+  line-height: 1.04;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+
+.page-head .muted {
+  max-width: 680px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.role-pill {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 34px;
+  padding: 8px 12px;
+  border: 1px solid #b9ded2;
+  border-radius: 999px;
+  background: #edf8f3;
+  color: #176d5b;
+  font: 700 11px/1 Arial, sans-serif;
+  white-space: nowrap;
+}
+
+.metrics {
+  align-items: stretch;
+  margin-bottom: 24px;
+}
+
+.metric {
+  min-width: 0;
+  min-height: 112px;
+  align-items: center;
+  padding: 20px;
+}
+
+.metric > div:last-child {
+  min-width: 0;
+}
+
+.metric strong {
+  display: block;
+  margin: 4px 0 3px;
+  line-height: 1.1;
+}
+
+.metric small {
+  line-height: 1.35;
+}
+
+.panel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.panel-head {
+  min-height: 74px;
+  align-items: center;
+  padding: 21px 24px 15px;
+}
+
+.panel-head h2 {
+  margin-top: 5px;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.content-grid,
+.command-grid,
+.analytics-grid {
+  align-items: stretch;
+  margin-bottom: 22px;
+}
+
+.compact-form {
+  gap: 16px;
+  padding: 4px 24px 24px;
+}
+
+.compact-form label {
+  gap: 7px;
+  line-height: 1.2;
+}
+
+.compact-form input,
+.compact-form select,
+.compact-form textarea {
+  min-height: 44px;
+  padding: 11px 13px;
+  line-height: 1.25;
+}
+
+.compact-form textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.primary,
+.secondary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  line-height: 1.1;
+}
+
+.brief-stack > div {
+  gap: 5px;
+  padding: 17px 24px;
+}
+
+.brief-stack strong,
+.brief-stack small {
+  line-height: 1.4;
+}
+
+.incident-row,
+.route-option,
+.transit-card,
+.delivery-card {
+  min-width: 0;
+}
+
+.incident-row strong,
+.incident-row small,
+.route-option strong,
+.route-option small,
+.delivery-card strong,
+.delivery-card small,
+.transit-card strong,
+.transit-card small {
+  line-height: 1.35;
+}
+
+@media (max-width: 720px) {
+  .main {
+    padding: 12px 12px 28px;
+  }
+
+  .topbar {
+    margin-bottom: 20px;
+  }
+
+  .page-head {
+    display: block;
+    min-height: 0;
+    margin-bottom: 18px;
+  }
+
+  .page-head h1 {
+    font-size: clamp(1.9rem, 8vw, 2.7rem);
+  }
+
+  .page-head .role-pill {
+    margin-top: 14px;
+  }
+
+  .panel-head {
+    padding: 18px 18px 12px;
+  }
+
+  .compact-form {
+    padding: 4px 18px 20px;
+  }
+}
+
+@media (max-width: 520px) {
+  body {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .install-app {
+    top: auto;
+    right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom));
+    min-height: 42px;
+    padding: 10px 14px;
+  }
+
+  .app-update {
+    top: auto;
+    right: 14px;
+    bottom: calc(66px + env(safe-area-inset-bottom));
+  }
+}
+
 .profile-form button:disabled {
   cursor: wait;
   opacity: .65;

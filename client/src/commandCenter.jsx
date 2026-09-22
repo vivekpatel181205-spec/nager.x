@@ -105,6 +105,7 @@ import {
   CheckCircle2,
   CircleUserRound,
   Compass,
+  Download,
   LayoutDashboard,
   LogOut,
   MapPin,
@@ -126,7 +127,6 @@ const demoAccounts = {
   Authority: ["authority@nagerx.demo", "authority123"],
   Logistics: ["logistics@nagerx.demo", "logistics123"],
 };
-
 const request = async (path, options = {}) => {
   const response = await fetch(`${API}${path}`, {
     ...options,
@@ -253,6 +253,21 @@ const deliverySeed = [
 
 function DemoBadge() {
   return null;
+}
+function InstallAppButton() {
+  const [prompt, setPrompt] = useState(null);
+  useEffect(() => {
+    const capture = (event) => { event.preventDefault(); setPrompt(event); };
+    window.addEventListener("beforeinstallprompt", capture);
+    return () => window.removeEventListener("beforeinstallprompt", capture);
+  }, []);
+  const install = async () => {
+    if (!prompt) { window.alert("Use your browser menu and choose Install NagarX or Add to Home Screen."); return; }
+    await prompt.prompt();
+    await prompt.userChoice;
+    setPrompt(null);
+  };
+  return <button className="install-app" onClick={install} aria-label="Install NagarX app"><Download size={15} /> Install NagarX</button>;
 }
 function PageHead({ eyebrow, title, copy, action }) {
   return (
@@ -1168,6 +1183,7 @@ export default function CommandCenter() {
   }[view];
   return (
     <div className="app-shell">
+      <InstallAppButton />
       <aside className={`sidebar ${menuOpen ? "open" : ""}`}>
         <div className="brand">
           <span className="brand-mark small">NX</span>

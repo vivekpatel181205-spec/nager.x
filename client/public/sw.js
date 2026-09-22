@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nagerx-v12';
+const CACHE_NAME = 'nagerx-v13';
 const ASSETS = ['/', '/index.html', '/manifest.json', '/favicon.svg'];
 
 self.addEventListener('install', event => {

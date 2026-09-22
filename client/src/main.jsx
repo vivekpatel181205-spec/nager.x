@@ -10,10 +10,7 @@ import './styles.css';
 
 if ('serviceWorker' in navigator) {
 	window.addEventListener('load', () => {
-		Promise.all([
-			navigator.serviceWorker.getRegistrations().then(registrations => Promise.all(registrations.map(registration => registration.unregister()))),
-			'caches' in window ? caches.keys().then(keys => Promise.all(keys.map(key => caches.delete(key)))) : Promise.resolve()
-		]).catch(error => console.error('NagarX cache cleanup failed:', error));
+		navigator.serviceWorker.register('/sw.js').catch(error => console.error('NagarX service worker registration failed:', error));
 	});
 }
 

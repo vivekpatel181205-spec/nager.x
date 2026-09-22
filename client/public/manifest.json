@@ -1,12 +1,15 @@
 {
   "name": "NagarX City Hub",
   "short_name": "NagarX",
+  "id": "/",
   "description": "Smart city mobility dashboard for citizens, authorities, and logistics teams.",
-  "start_url": ".",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f2f8f6",
   "theme_color": "#123c3c",
-  "orientation": "portrait",
+  "orientation": "any",
+  "categories": ["navigation", "business", "productivity"],
   "icons": [
     {
       "src": "/favicon.svg",
